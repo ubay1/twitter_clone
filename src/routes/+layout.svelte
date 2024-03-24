@@ -21,12 +21,6 @@
 	}
 </script>
 
-<svelte:head>
-	<script>
-		document.documentElement.classList.add('dark');
-	</script>
-</svelte:head>
-
 <Seo />
 
 <main class="overflow-hidden">

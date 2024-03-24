@@ -3,37 +3,75 @@
 	import Icons from '@iconify/svelte';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import Seo from '$lib/components/common/Seo.svelte';
-	import { constantFooterAuthPage } from '$lib/utils/constants';
+	import { constantFooterAuthPage, getConstantData } from '$lib/utils/constants';
 	import { CloseShallowRouting, ShallowRouting } from '$lib/utils/shallowRouting.ts';
-	import InputMaterial from '$lib/components/common/form/InputMaterial.svelte';
+	import FormInput from '$lib/components/common/form/Input.svelte';
+	import FormSelect from '$lib/components/common/form/Select.svelte';
+	import type { IListData } from '$lib/types/components';
+	import { onMount } from 'svelte';
+
+	let isShowModal: boolean = false;
+	let dataRandom: IListData[];
+	let selectedData1: IListData;
+	let metaTitle: string = "X. It's what's happening";
+	$: compMetaTitle = metaTitle;
 
 	const listFooter = constantFooterAuthPage;
 
+	function getTitle(path?: string) {
+		const list = {
+			signup: 'Sign Up For X',
+			signin: 'Log In For X',
+			default: "X. It's what's happening"
+		};
+
+		if (path) {
+			metaTitle = (list as any)[path];
+		} else {
+			metaTitle = list.default;
+		}
+	}
 	function showModal(path: string) {
 		ShallowRouting._path = path;
 		ShallowRouting.showModal();
+		isShowModal = true;
+		getTitle(path);
 	}
 	function closeModal() {
 		const close = new CloseShallowRouting();
-		close.back({ type: 'history_back' });
+		close.back({ type: 'replace_back' });
+		isShowModal = false;
+		getTitle();
 	}
+
+	onMount(() => {
+		dataRandom = getConstantData();
+	});
 </script>
 
-<Seo title="X. It's what's happening" url="/" />
+<Seo title={compMetaTitle} url="/" />
 
-{#if $page.state.showModal}
+{#if isShowModal}
 	<Modal on:close={closeModal}>
 		<div class="px-8 flex flex-col items-start">
 			<div class="font-bold text-2xl mb-6">Create your account</div>
 			<div class="w-fill flex flex-col gap-4">
-				<InputMaterial id="name" label="Name" />
-				<InputMaterial id="email" label="Email" showTotalInput={false} maxLengthInput={1000} />
+				<FormInput id="name" label="Name" />
+				<FormInput id="email" label="Email" showTotalInput={false} maxLengthInput={1000} />
 
 				<div>
 					<div class="font-bold text-sm mb-1">Date of birth</div>
 					<div class="text-xs text-gray-5">
 						This will not be shown publicly. Confirm your own age, even if this account is for a
 						business, a pet, or something else.
+					</div>
+					<div class="grid grid-cols-3 gap-2">
+						<FormSelect
+							id="id-custom-select"
+							name="custom select data random"
+							listData={dataRandom}
+							bind:selectedData={selectedData1}
+						/>
 					</div>
 				</div>
 			</div>
