@@ -5,9 +5,9 @@
 	export let label: string;
 	export let showTotalInput: boolean = true;
 	export let maxLengthInput: number = 50;
+	export let value: string;
 
 	let formInput: any;
-	let value: string = '';
 	let isFocused: boolean = false;
 
 	$: totalValue = Number(value.length);
@@ -21,7 +21,7 @@
 <div
 	class={classNames('inputContainer', {
 		'border border-solid border-[#dedede]': !isFocused,
-		'ring-2 ring-solid ring-[#1d9bf0]': isFocused
+		'ring-2 ring-[#1d9bf0]': isFocused
 	})}
 	on:click={formInput.focus()}
 >

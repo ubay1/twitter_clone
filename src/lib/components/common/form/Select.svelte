@@ -52,7 +52,7 @@
 	{/if}
 	{#if disabled || isLoading}
 		<div
-			class="bg-gray-50 border border-gray-300 dark:border-gray-600 focus:border-primary-500 focus:ring-primary-500 w-full flex justify-between items-center py-2 pr-1.5 pl-2.5 rounded-lg focus:border focus:ring-2 dark:bg-gray-700 dark:border outline-none dark:focus:ring-2"
+			class="bg-gray-50 border border-gray-300 focus:border-primary-500 focus:ring-primary-500 w-full flex justify-between items-center py-2 pr-1.5 pl-2.5 rounded-lg focus:border focus:ring-2 outline-none"
 		>
 			<span class="text-color-default text-sm opacity-20">
 				{isLoading
@@ -66,20 +66,23 @@
 			{:else}
 				<Icon
 					icon={!showList ? 'ic:round-keyboard-arrow-down' : 'ic:round-keyboard-arrow-up'}
-					class="w-[1.5rem] h-[1.5rem] text-gray-500 dark:text-gray-500 opacity-20"
+					class="w-[1.5rem] h-[1.5rem] text-gray-500 opacity-20"
 				/>
 			{/if}
 		</div>
 	{:else}
-		<button
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div
 			{id}
 			{disabled}
 			use:floatingRef
 			class={classnames(
-				'bg-gray-50 border w-full flex justify-between items-center py-2 pr-1.5 pl-2.5 rounded-lg focus:border focus:ring-2 dark:bg-gray-700 dark:border outline-none dark:focus:ring-2',
+				'bg-transparent border-solid border-1 h-[55px] w-full flex flex-col items-start rounded-[5px] focus:border focus:ring-2 outline-none cursor-pointer',
 				{
-					'border-red-500 ring-red-500 dark:ring-red-500': formError,
-					'border-gray-300 dark:border-gray-600': !formError
+					'border-red-500 ring-red-500': formError,
+					'border-[#dedede]': !formError || !showList,
+					'border-blue-500 border-2': showList
 				}
 			)}
 			on:click={() => {
@@ -94,28 +97,42 @@
 				}
 			}}
 		>
-			<span class="text-color-default text-sm truncate">
-				{checkDataIsNotEmpty(selectedData.value) ? selectedData.label : placeholderBtn}
-			</span>
-			<Icon
-				icon="ic:round-keyboard-arrow-down"
-				class={classnames('w-[1.5rem] h-[1.5rem] text-gray-500 dark:text-gray-400', {
-					'rotate-180 transform transition duration-200 ease-in-out': showList,
-					'rotate-0 transform transition duration-200 ease-in-out': !showList
+			<span
+				class={classnames('text-sm truncate pt-1 px-2', {
+					'text-gray-500': !showList,
+					'text-blue-500': showList
 				})}
-			/>
-		</button>
+			>
+				{name}
+			</span>
+			<div class="flex items-center justify-between w-full absolute top-35% h-40px">
+				<span
+					class={classnames('text-sm truncate px-2', {
+						'text-gray-500': !checkDataIsNotEmpty(selectedData.value)
+					})}
+				>
+					{checkDataIsNotEmpty(selectedData.value) ? selectedData.label : ''}
+				</span>
+				<Icon
+					icon="bi:chevron-down"
+					class={classnames('w-[1rem] h-[1rem] absolute right-2 top-[0px]', {
+						'rotate-180 transform transition duration-200 ease-in-out text-blue-500': showList,
+						'rotate-0 transform transition duration-200 ease-in-out text-gray-500': !showList
+					})}
+				/>
+			</div>
+		</div>
 		{#if showList}
 			<div
 				use:floatingContent
-				class="absolute z-[1000] bg-white border border-gray-300 top-14 shadow rounded-lg w-full max-h-[250px] overflow-auto dark:bg-gray-700 dark:border dark:border-gray-600"
+				class="absolute z-[1000] bg-white border border-gray-300 top-14 shadow rounded-lg w-full max-h-[250px] overflow-auto"
 			>
-				<div class="p-2 sticky top-0 bg-white dark:bg-gray-700">
+				<div class="p-2 sticky top-0 bg-white">
 					<input
 						bind:value={search}
 						type="text"
 						placeholder={placeholderSearch}
-						class="w-full bg-gray-100 py-2 border-none rounded-lg focus:border focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:bg-gray-600"
+						class="w-full bg-gray-100 py-2 border-none rounded-lg focus:border focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
 					/>
 				</div>
 				<div class="px-2 pb-2">
@@ -129,10 +146,9 @@
 								class={classnames(
 									'text-left px-3 py-2 w-full text-color-default cursor-pointer hover:rounded-lg',
 									{
-										'bg-primary-500 rounded-lg hover:bg-primary-500 dark:hover:bg-primary-500 text-white':
+										'bg-primary-500 rounded-lg hover:bg-primary-500 text-white':
 											selectedData.value === item.value,
-										'bg-transparent hover:bg-gray-100 hover:dark:bg-gray-600':
-											selectedData.value !== item.value
+										'bg-transparent hover:bg-gray-100': selectedData.value !== item.value
 									}
 								)}
 								on:click={() => {

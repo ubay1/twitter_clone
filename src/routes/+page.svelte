@@ -3,16 +3,26 @@
 	import Icons from '@iconify/svelte';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import Seo from '$lib/components/common/Seo.svelte';
-	import { constantFooterAuthPage, getConstantData } from '$lib/utils/constants';
+	import { constantFooterAuthPage } from '$lib/utils/constants';
+	import { currentYear, getListDates, getListMonths, getListYears } from '$lib/utils/date';
 	import { CloseShallowRouting, ShallowRouting } from '$lib/utils/shallowRouting.ts';
 	import FormInput from '$lib/components/common/form/Input.svelte';
 	import FormSelect from '$lib/components/common/form/Select.svelte';
 	import type { IListData } from '$lib/types/components';
+	import { dataSignup as useDataSignUp } from '$lib/stores/auth/signup';
 	import { onMount } from 'svelte';
 
 	let isShowModal: boolean = false;
-	let dataRandom: IListData[];
-	let selectedData1: IListData;
+
+	let dataSignup = {
+		name: '',
+		email: '',
+		yearOfBirth: {} as IListData,
+		monthOfBirth: {} as IListData,
+		dateOfBirth: {} as IListData
+	};
+	$: useDataSignUp.setDataSignup(dataSignup);
+
 	let metaTitle: string = "X. It's what's happening";
 	$: compMetaTitle = metaTitle;
 
@@ -44,9 +54,7 @@
 		getTitle();
 	}
 
-	onMount(() => {
-		dataRandom = getConstantData();
-	});
+	onMount(() => {});
 </script>
 
 <Seo title={compMetaTitle} url="/" />
@@ -56,8 +64,14 @@
 		<div class="px-8 flex flex-col items-start">
 			<div class="font-bold text-2xl mb-6">Create your account</div>
 			<div class="w-fill flex flex-col gap-4">
-				<FormInput id="name" label="Name" />
-				<FormInput id="email" label="Email" showTotalInput={false} maxLengthInput={1000} />
+				<FormInput id="name" label="Name" bind:value={dataSignup.name} />
+				<FormInput
+					id="email"
+					label="Email"
+					showTotalInput={false}
+					maxLengthInput={1000}
+					bind:value={dataSignup.email}
+				/>
 
 				<div>
 					<div class="font-bold text-sm mb-1">Date of birth</div>
@@ -67,10 +81,25 @@
 					</div>
 					<div class="grid grid-cols-3 gap-2">
 						<FormSelect
-							id="id-custom-select"
-							name="custom select data random"
-							listData={dataRandom}
-							bind:selectedData={selectedData1}
+							id="Year"
+							name="Year"
+							listData={getListYears()}
+							bind:selectedData={dataSignup.yearOfBirth}
+						/>
+						<FormSelect
+							id="Month"
+							name="Month"
+							listData={getListMonths(Number(dataSignup.yearOfBirth.value))}
+							bind:selectedData={dataSignup.monthOfBirth}
+						/>
+						<FormSelect
+							id="Date"
+							name="Date"
+							listData={getListDates(
+								Number(dataSignup.yearOfBirth.value),
+								Number(dataSignup.monthOfBirth.value)
+							)}
+							bind:selectedData={dataSignup.dateOfBirth}
 						/>
 					</div>
 				</div>
@@ -80,22 +109,22 @@
 {/if}
 
 <div
-	class="h-full mt-16"
-	un-md="grid grid-cols-2 py-4"
+	class="h-full"
+	un-md="flex"
 	un-lt-md="flex flex-col w-3/4 m-auto py-6"
-	un-lt-sm="flex flex-col w-fill px-4 m-auto py-6"
+	un-lt-sm="flex flex-col w-10/11 m-auto py-6"
 >
-	<div un-md="flex justify-center" un-lt-md="flex justify-start">
-		<Icons icon="ri:twitter-x-line" class="w-1/2 h-full lt-md:w-10" />
+	<div un-md="flex justify-center w-[48%]" un-lt-md="flex justify-start">
+		<Icons icon="ri:twitter-x-line" class="w-300px h-full lt-md:w-10" />
 	</div>
 	<div
-		un-md="flex flex-col justify-center gap-8"
+		un-md="flex flex-col justify-center w-[52%]"
 		un-lt-md="flex flex-col justify-center gap-4 mt-10"
 	>
-		<div class="font-bold text-[4.3rem] font-defaultBold" un-lt-md="text-3xl break-all">
+		<div class="font-defaultBold font-bold" un-md="text-[4.3rem] mt-20" un-lt-md="text-3xl">
 			Happening now
 		</div>
-		<div class="font-bold text-2xl mt-6" un-lt-md="mt-2">Join today.</div>
+		<div class="font-bold text-2xl mt-8 mb-6" un-lt-md="mt-2">Join today.</div>
 		<div class="w-[320px] flex flex-col gap-2 <md:w-full">
 			<button class="btn-light w-full flex justify-center items-center gap-2">
 				<Icons icon="ri:google-fill" class="text-lg" /> Sign up with Google
@@ -115,7 +144,7 @@
 			</div>
 
 			<button
-				class="btn-light border-none bg-light-colord text-white w-full font-semibold hover:bg-light-colore"
+				class="btn-light border-none bg-colord text-white w-full font-semibold hover:bg-colore"
 				on:click|preventDefault={() => showModal('signup')}
 			>
 				Create account
@@ -129,9 +158,7 @@
 
 			<div class="mt-10">
 				<div class="font-bold">Already have an account?</div>
-				<button
-					class="btn-light font-semibold w-full mt-4 text-light-colord hover:bg-light-colord/10%"
-				>
+				<button class="btn-light font-semibold w-full mt-4 text-colord hover:bg-colord/10%">
 					Sign in
 				</button>
 			</div>

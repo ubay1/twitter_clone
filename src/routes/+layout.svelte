@@ -1,6 +1,7 @@
 <script lang="ts">
 	import 'uno.css';
 	import '$lib/assets/css/global.css';
+	// import '$lib/assets/css/theme.css';
 	import { navigating } from '$app/stores';
 	import NProgress from 'nprogress';
 	import 'nprogress/nprogress.css';
@@ -23,7 +24,7 @@
 
 <Seo />
 
-<main class="overflow-hidden">
+<main class="overflow-hidden lampon bg-colorbg">
 	<slot />
 </main>
 

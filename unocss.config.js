@@ -11,6 +11,8 @@ import {
 	// transformerVariantGroup
 } from 'unocss';
 
+import presetTheme from 'unocss-preset-theme';
+
 export default defineConfig({
 	shortcuts: [
 		['w-fill', 'w-[-moz-available] w-[-webkit-fill-available]'],
@@ -32,10 +34,44 @@ export default defineConfig({
 		]
 	],
 	presets: [
-		presetUno(),
+		presetUno({ dark: 'media' }),
+		presetTheme({
+			theme: {
+				lampon: {
+					colors: {
+						colorbg: '#ffffff',
+						colora: '#0f1419',
+						colorb: '#536471',
+						colorc: '#71767b',
+						colord: '#1d9bf0',
+						colore: '#1a8cd8'
+					}
+				},
+				lampoff: {
+					colors: {
+						colorbg: '#000000',
+						colora: '#f7f9f9',
+						colorb: '#e7e9ea',
+						colorc: '#71767b',
+						colord: '#1d9bf0',
+						colore: '#1a8cd8'
+					}
+				},
+				tamaram: {
+					colors: {
+						colorbg: '#cccccc',
+						colora: '#f7f9f9',
+						colorb: '#e7e9ea',
+						colorc: '#71767b',
+						colord: '#1d9bf0',
+						colore: '#1a8cd8'
+					}
+				}
+			}
+		}),
 		// presetWind(),
 		presetMini({
-			dark: 'class'
+			// dark: 'class'
 		}),
 		presetTypography(),
 		presetAttributify({
@@ -60,30 +96,12 @@ export default defineConfig({
 	// prettier-ignore
 	theme: {
 		colors: {
-			light: {
-				'bg': '#ffffff',
-				'colora': '#0f1419',
-				'colorb': '#536471',
-				'colorc': '#71767b',
-				'colord': '#1d9bf0',
-				'colore': '#1a8cd8'
-			},
-			dark: {
-				'bg': '#000000',
-				'colora': '#f7f9f9',
-				'colorb': '#e7e9ea',
-				'colorc': '#71767b',
-				'colord': '#1d9bf0',
-				'colore': '#1a8cd8'
-			},
-			temaram: {
-				'bg': '#5c6e7e',
-				'colora': '#f7f9f9',
-				'colorb': '#e7e9ea',
-				'colorc': '#71767b',
-				'colord': '#1d9bf0',
-				'colore': '#1a8cd8'
-			}
+			colorbg: '#ffffff',
+			colora: '#0f1419',
+			colorb: '#536471',
+			colorc: '#71767b',
+			colord: '#1d9bf0',
+			colore: '#1a8cd8'
 		},
 		boxShadow: {
 			inset: 'inset 0 -1px 1px rgba(33, 71, 41, 0.15),0 0.25rem 1.5rem rgba(255, 255, 255, 0.75)'
