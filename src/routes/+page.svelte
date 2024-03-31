@@ -11,6 +11,7 @@
 	import type { IListData } from '$lib/types/components';
 	import { dataSignup as useDataSignUp } from '$lib/stores/auth/signup';
 	import { onMount } from 'svelte';
+	import { debounce } from '$lib/actions/debounce';
 
 	let isShowModal: boolean = false;
 
