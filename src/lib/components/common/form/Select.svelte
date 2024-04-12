@@ -7,7 +7,7 @@
 	import type { IListData } from '$lib/types/components';
 	import { checkDataIsNotEmpty } from '$lib/utils/transform';
 	import ErrorMessage from './ErrorMessage.svelte';
-	import Loading from '../Loading.svelte';
+	import LoadingTwoColor from '../loading/LoadingTwoColor.svelte';
 	import { clickOutside } from '$lib/actions/clickOutside';
 
 	const [floatingRef, floatingContent] = createFloatingActions({
@@ -62,7 +62,7 @@
 						: placeholderBtn}
 			</span>
 			{#if isLoading}
-				<Loading color1="#555" class="m-0 w-7 h-7 p-0" />
+				<LoadingTwoColor color1="#555" class="m-0 w-7 h-7 p-0" />
 			{:else}
 				<Icon
 					icon={!showList ? 'ic:round-keyboard-arrow-down' : 'ic:round-keyboard-arrow-up'}

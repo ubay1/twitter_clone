@@ -24,7 +24,7 @@
 
 <Seo />
 
-<main class="overflow-hidden lampon bg-colorbg">
+<main class="overflow-hidden bg-color_bg lampon" id="layout1">
 	<slot />
 </main>
 

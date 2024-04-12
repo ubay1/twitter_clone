@@ -17,3 +17,22 @@ export const removeNullOrUndefined = (object: object) =>
 
 export const checkDataIsNotEmpty = (value: string | number | null | undefined): boolean =>
 	!['', '-', null, 'null', undefined, 'undefined', 0].includes(value);
+
+interface DataSignup {
+	[key: string]: string | object;
+}
+export function checkObjectHasEmptyValue(obj: DataSignup): boolean {
+	for (const key in obj) {
+		if (typeof obj[key] === 'string' && (obj[key] as string).trim() === '') {
+			return true;
+		}
+		if (typeof obj[key] === 'object') {
+			const subObject = obj[key] as DataSignup; // Type assertion to enforce DataSignup type
+			const subResult = checkObjectHasEmptyValue(subObject);
+			if (subResult) {
+				return subResult;
+			}
+		}
+	}
+	return false;
+}

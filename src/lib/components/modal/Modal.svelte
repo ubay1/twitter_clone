@@ -3,11 +3,11 @@
 	import classnames from 'classnames';
 	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const emit = createEventDispatcher();
 
 	export const withTitle: boolean = true;
 
-	const closeModal = () => dispatch('close');
+	const closeModal = () => emit('close');
 </script>
 
 <div
@@ -15,7 +15,8 @@
 >
 	<div class="fixed inset-0 bg-[rgba(0,0,0,0.8)] opacity-50 z-20"></div>
 	<div
-		class="bg-white p-2 rounded-lg shadow-xl w-[50%] max-h-full overflow-auto z-2000"
+		class="bg-white p-2 rounded-lg shadow-xl max-h-full overflow-auto z-2000"
+		lg="w-[50%]"
 		un-lt-lg="w-[70%]"
 		un-lt-md="w-[80%]"
 		un-lt-sm="w-full h-full"

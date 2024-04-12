@@ -1,11 +1,13 @@
 <script lang="ts">
 	import classNames from 'classnames';
+	import { onMount } from 'svelte';
 
 	export let id: string;
 	export let label: string;
 	export let showTotalInput: boolean = true;
 	export let maxLengthInput: number = 50;
 	export let value: string;
+	export let initFocus: boolean = false;
 
 	let formInput: any;
 	let isFocused: boolean = false;
@@ -14,6 +16,12 @@
 
 	const onFocus = () => (isFocused = true);
 	const onBlur = () => (isFocused = false);
+
+	onMount(() => {
+		if (initFocus) {
+			formInput.focus();
+		}
+	});
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -21,13 +29,13 @@
 <div
 	class={classNames('inputContainer', {
 		'border border-solid border-[#dedede]': !isFocused,
-		'ring-2 ring-[#1d9bf0]': isFocused
+		'border-2 border-solid border-[#1d9bf0]': isFocused
 	})}
 	on:click={formInput.focus()}
 >
 	<input
 		{id}
-		name="mail"
+		name={id}
 		type="text"
 		required
 		maxlength={maxLengthInput}

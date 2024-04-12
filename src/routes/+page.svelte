@@ -1,28 +1,14 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import Icons from '@iconify/svelte';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import Seo from '$lib/components/common/Seo.svelte';
 	import { constantFooterAuthPage } from '$lib/utils/constants';
-	import { currentYear, getListDates, getListMonths, getListYears } from '$lib/utils/date';
 	import { CloseShallowRouting, ShallowRouting } from '$lib/utils/shallowRouting.ts';
-	import FormInput from '$lib/components/common/form/Input.svelte';
-	import FormSelect from '$lib/components/common/form/Select.svelte';
-	import type { IListData } from '$lib/types/components';
-	import { dataSignup as useDataSignUp } from '$lib/stores/auth/signup';
 	import { onMount } from 'svelte';
-	import { debounce } from '$lib/actions/debounce';
+	import ModalSignup from '$lib/components/modal/ModalSignup.svelte';
+	import ButtonFill from '$lib/components/common/button/ButtonFill.svelte';
 
 	let isShowModal: boolean = false;
-
-	let dataSignup = {
-		name: '',
-		email: '',
-		yearOfBirth: {} as IListData,
-		monthOfBirth: {} as IListData,
-		dateOfBirth: {} as IListData
-	};
-	$: useDataSignUp.setDataSignup(dataSignup);
 
 	let metaTitle: string = "X. It's what's happening";
 	$: compMetaTitle = metaTitle;
@@ -31,8 +17,8 @@
 
 	function getTitle(path?: string) {
 		const list = {
-			signup: 'Sign Up For X',
-			signin: 'Log In For X',
+			signup: 'Sign up for X',
+			signin: 'Log in for X',
 			default: "X. It's what's happening"
 		};
 
@@ -62,50 +48,7 @@
 
 {#if isShowModal}
 	<Modal on:close={closeModal}>
-		<div class="px-8 flex flex-col items-start">
-			<div class="font-bold text-2xl mb-6">Create your account</div>
-			<div class="w-fill flex flex-col gap-4">
-				<FormInput id="name" label="Name" bind:value={dataSignup.name} />
-				<FormInput
-					id="email"
-					label="Email"
-					showTotalInput={false}
-					maxLengthInput={1000}
-					bind:value={dataSignup.email}
-				/>
-
-				<div>
-					<div class="font-bold text-sm mb-1">Date of birth</div>
-					<div class="text-xs text-gray-5">
-						This will not be shown publicly. Confirm your own age, even if this account is for a
-						business, a pet, or something else.
-					</div>
-					<div class="grid grid-cols-3 gap-2">
-						<FormSelect
-							id="Year"
-							name="Year"
-							listData={getListYears()}
-							bind:selectedData={dataSignup.yearOfBirth}
-						/>
-						<FormSelect
-							id="Month"
-							name="Month"
-							listData={getListMonths(Number(dataSignup.yearOfBirth.value))}
-							bind:selectedData={dataSignup.monthOfBirth}
-						/>
-						<FormSelect
-							id="Date"
-							name="Date"
-							listData={getListDates(
-								Number(dataSignup.yearOfBirth.value),
-								Number(dataSignup.monthOfBirth.value)
-							)}
-							bind:selectedData={dataSignup.dateOfBirth}
-						/>
-					</div>
-				</div>
-			</div>
-		</div>
+		<ModalSignup />
 	</Modal>
 {/if}
 
@@ -127,10 +70,10 @@
 		</div>
 		<div class="font-bold text-2xl mt-8 mb-6" un-lt-md="mt-2">Join today.</div>
 		<div class="w-[320px] flex flex-col gap-2 <md:w-full">
-			<button class="btn-light w-full flex justify-center items-center gap-2">
+			<button class="btn-fill-gray w-full flex justify-center items-center gap-2">
 				<Icons icon="ri:google-fill" class="text-lg" /> Sign up with Google
 			</button>
-			<button class="btn-light w-full flex justify-center items-center gap-2">
+			<button class="btn-fill-gray w-full flex justify-center items-center gap-2">
 				<Icons icon="ri:apple-fill" class="text-lg" /> Sign up with Apple
 			</button>
 
@@ -144,12 +87,7 @@
 				</div>
 			</div>
 
-			<button
-				class="btn-light border-none bg-colord text-white w-full font-semibold hover:bg-colore"
-				on:click|preventDefault={() => showModal('signup')}
-			>
-				Create account
-			</button>
+			<ButtonFill variant="primary" on:click={() => showModal('signup')} label="Create account" />
 
 			<div class="text-[11px]">
 				By signing up, you agree to the <span class="text-light-colore">Terms of Service</span> and
@@ -159,7 +97,9 @@
 
 			<div class="mt-10">
 				<div class="font-bold">Already have an account?</div>
-				<button class="btn-light font-semibold w-full mt-4 text-colord hover:bg-colord/10%">
+				<button
+					class="btn-fill-gray font-semibold w-full mt-4 text-color_primary hover:bg-color_primary/10%"
+				>
 					Sign in
 				</button>
 			</div>
