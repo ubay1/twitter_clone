@@ -48,7 +48,7 @@
 
 {#if isShowModal}
 	<Modal on:close={closeModal}>
-		<ModalSignup />
+		<ModalSignup on:close={closeModal} />
 	</Modal>
 {/if}
 

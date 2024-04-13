@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { currentYear, getListDates, getListMonths, getListYears } from '$lib/utils/date';
 	import FormInput from '$lib/components/common/form/Input.svelte';
 	import FormSelectV2 from '$lib/components/common/form/SelectV2.svelte';
-	import { debounce } from '$lib/actions/debounce';
-	import type { IListData } from '$lib/types/components';
 	import { dataSignup as useDataSignUp } from '$lib/stores/auth/signup';
 	import ButtonFill from '$lib/components/common/button/ButtonFill.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
@@ -12,9 +9,12 @@
 	import { checkDataIsNotEmpty, checkObjectHasEmptyValue } from '$lib/utils/transform';
 	import { email } from 'svelte-forms/validators';
 	import { customValidationNameSignup } from '$lib/utils/customValidationForErrorHandling';
+	import toast, { Toaster } from 'svelte-french-toast';
+	import { createEventDispatcher, onMount } from 'svelte';
+
+	const emit = createEventDispatcher();
 
 	let isLoading: boolean = false;
-
 	let dataSignup = {
 		name: '',
 		email: '',
@@ -24,39 +24,42 @@
 	};
 	$: useDataSignUp.setDataSignup(dataSignup);
 
-	const submitSignup: SubmitFunction = ({ formData, cancel }) => {
+	const submitSignup: SubmitFunction = ({ cancel }) => {
 		isLoading = true;
 		const objectHasEmptyValue = checkObjectHasEmptyValue(dataSignup);
 		// console.log(objectHasEmptyValue);
 		// console.log(dataSignup);
 
 		if (objectHasEmptyValue) {
-			alert('gagal');
+			toast.error('Error occurred');
 			cancel();
 		}
 
 		return async ({ result }) => {
-			console.log(result);
 			isLoading = false;
 
-			if (result.type === 'success') {
-				alert('sukses');
+			if (result.type === 'success' && result.data) {
+				toast.success('Account successfull created', {
+					position: 'top-right',
+					duration: 4000
+				});
+				emit('close');
+				// jika data sukses dikirim, lakukan reset form
+				// await update({ reset: true });
+				dataSignup = {
+					name: '',
+					email: '',
+					yearOfBirth: '',
+					monthOfBirth: '',
+					dateOfBirth: ''
+				};
 			}
-			// jika data sukses dikirim, lakukan reset form
-			// await update({ reset: true });
-			dataSignup = {
-				name: '',
-				email: '',
-				yearOfBirth: '',
-				monthOfBirth: '',
-				dateOfBirth: ''
-			};
 		};
 	};
 </script>
 
 <div class="px-8 flex flex-col items-start lt-sm:px-2">
-	<div class="font-bold text-2xl mb-6 mt-10">Create your account</div>
+	<div class="font-bold text-2xl mb-6 sm:mt-6 lt-sm:mt-10">Create your account</div>
 	<form method="post" action="?/signup" use:enhance={submitSignup}>
 		<div class="w-full flex flex-col gap-4">
 			<FormInput

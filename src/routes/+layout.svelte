@@ -6,6 +6,7 @@
 	import NProgress from 'nprogress';
 	import 'nprogress/nprogress.css';
 	import Seo from '$lib/components/common/Seo.svelte';
+	import { Toaster } from 'svelte-french-toast';
 
 	NProgress.configure({
 		// Full list: https://github.com/rstacruz/nprogress#configuration
@@ -25,6 +26,7 @@
 <Seo />
 
 <main class="overflow-hidden bg-color_bg lampon" id="layout1">
+	<Toaster />
 	<slot />
 </main>
 
