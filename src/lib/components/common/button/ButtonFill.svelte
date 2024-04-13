@@ -43,7 +43,7 @@
 	<button
 		{type}
 		class={classNames([
-			'w-fill',
+			'w-fill relative',
 			buttonType(variant),
 			{
 				'p-0.5': loading,
@@ -54,7 +54,11 @@
 		on:click={() => onClick()}
 	>
 		{#if loading}
-			<LoadingOneColor color="white" class="h-8 w-8 pt-1.2" />
+			<LoadingOneColor
+				color="white"
+				classWrapper="absolute left-0 bottom-[0.10rem] text-center w-fill"
+				classInner="h-8 w-8"
+			/>
 		{:else}
 			<span> {label}</span>
 		{/if}

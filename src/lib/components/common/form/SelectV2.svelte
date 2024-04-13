@@ -11,15 +11,14 @@
 
 	const emit = createEventDispatcher();
 
-	let search: string;
 	let showList: boolean = false;
-	// export let selectedData: IListData = { label: '', value: '' };
 	export let listData: IListData[] = [];
 	export let placeholder: string = 'Select data';
 	export let label: string = '';
 	export let id: string;
 	export let name: string;
 	export let disabled: boolean = false;
+	export let isResetForm: boolean = false;
 	export let isLoading: boolean = false;
 	export let validation: any[] | undefined = undefined;
 
@@ -27,17 +26,11 @@
 	$: formError = $form.dirty && $form.errors.length > 0;
 	$: emit('selected', $form.value);
 
-	$: _listData = listData.filter((item) =>
-		(item.label as string).toLowerCase().includes(search && search.toLowerCase())
-	);
-
-	// $: if (!checkDataIsNotEmpty(selected)) {
-	// 	selected = { label: '', value: '' };
-	// }
+	// reset value form selected
+	$: if (isResetForm) $form.value = '';
 
 	const handleClickOutside = () => {
 		showList = false;
-		search = '';
 	};
 </script>
 
@@ -117,8 +110,12 @@
 		height: 40px;
 		border-radius: 6px;
 		padding-left: 8px;
-		/* background-image: linear-gradient(to top, #f9f9f9, #fff 33%); */
+		/* background: linear-gradient(to bottom, #fff, #edecec);
+		box-shadow: inset 0 1px 0 #edecec; */
 	}
+	/* select:hover {
+		background: linear-gradient(to top, #fff, #edecec);
+	} */
 	select:focus-visible {
 		outline: 2px solid #1d9bf0;
 		border: none;

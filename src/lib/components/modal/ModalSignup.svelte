@@ -103,6 +103,8 @@
 						placeholder="Month"
 						listData={getListMonths(Number(dataSignup.yearOfBirth))}
 						disabled={!checkDataIsNotEmpty(dataSignup.yearOfBirth)}
+						isResetForm={checkDataIsNotEmpty(dataSignup.yearOfBirth) &&
+							!checkDataIsNotEmpty(dataSignup.monthOfBirth)}
 						on:selected={(e) => {
 							dataSignup.monthOfBirth = e.detail;
 							dataSignup.dateOfBirth = '';
@@ -112,9 +114,11 @@
 						id="Date"
 						name="Date"
 						placeholder="Day"
+						listData={getListDates(Number(dataSignup.yearOfBirth), Number(dataSignup.monthOfBirth))}
 						disabled={!checkDataIsNotEmpty(dataSignup.yearOfBirth) ||
 							!checkDataIsNotEmpty(dataSignup.monthOfBirth)}
-						listData={getListDates(Number(dataSignup.yearOfBirth), Number(dataSignup.monthOfBirth))}
+						isResetForm={!checkDataIsNotEmpty(dataSignup.yearOfBirth) ||
+							!checkDataIsNotEmpty(dataSignup.monthOfBirth)}
 						on:selected={(e) => {
 							dataSignup.dateOfBirth = e.detail;
 						}}
