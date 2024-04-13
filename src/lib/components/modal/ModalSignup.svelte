@@ -9,7 +9,7 @@
 	import ButtonFill from '$lib/components/common/button/ButtonFill.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
-	import { checkObjectHasEmptyValue } from '$lib/utils/transform';
+	import { checkDataIsNotEmpty, checkObjectHasEmptyValue } from '$lib/utils/transform';
 	import { email } from 'svelte-forms/validators';
 	import { customValidationNameSignup } from '$lib/utils/customValidationForErrorHandling';
 
@@ -91,21 +91,33 @@
 						name="Year"
 						placeholder="Year"
 						listData={getListYears()}
-						bind:selected={dataSignup.yearOfBirth}
+						on:selected={(e) => {
+							dataSignup.yearOfBirth = e.detail;
+							dataSignup.monthOfBirth = '';
+							dataSignup.dateOfBirth = '';
+						}}
 					/>
 					<FormSelectV2
 						id="Month"
 						name="Month"
 						placeholder="Month"
 						listData={getListMonths(Number(dataSignup.yearOfBirth))}
-						bind:selected={dataSignup.monthOfBirth}
+						disabled={!checkDataIsNotEmpty(dataSignup.yearOfBirth)}
+						on:selected={(e) => {
+							dataSignup.monthOfBirth = e.detail;
+							dataSignup.dateOfBirth = '';
+						}}
 					/>
 					<FormSelectV2
 						id="Date"
 						name="Date"
 						placeholder="Day"
+						disabled={!checkDataIsNotEmpty(dataSignup.yearOfBirth) ||
+							!checkDataIsNotEmpty(dataSignup.monthOfBirth)}
 						listData={getListDates(Number(dataSignup.yearOfBirth), Number(dataSignup.monthOfBirth))}
-						bind:selected={dataSignup.dateOfBirth}
+						on:selected={(e) => {
+							dataSignup.dateOfBirth = e.detail;
+						}}
 					/>
 				</div>
 				<ButtonFill

@@ -95,9 +95,8 @@
 		/* transition-delay: 0.1s; */
 	}
 	.inputContainer input {
-		height: 28px;
-		margin: 20px 0 4px 0;
-		padding-left: 10px;
+		height: 20px;
+		margin: 25px 10px 5px 10px;
 		font-size: 16px;
 		width: -moz-available;
 		width: -webkit-fill-available;
@@ -110,12 +109,13 @@
 	}
 	.inputContainer input:focus,
 	.inputContainer input:valid {
-		margin: 20px 0 4px 0;
+		margin: 25px 10px 5px 10px;
 	}
 	.inputContainer input:focus + label,
 	.inputContainer input:valid + label {
 		top: 5px;
 		color: #1d9bf0;
+		font-size: 14px;
 	}
 	.inputContainer label {
 		position: absolute;

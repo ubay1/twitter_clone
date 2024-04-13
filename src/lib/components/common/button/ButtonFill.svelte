@@ -34,7 +34,7 @@
 	<div
 		class={classNames([
 			$$props.class_disabled,
-			'h-11 flex cursor-not-allowed items-center justify-center rounded-full bg-gray-500 px-2 text-white font-bold'
+			'h-11 flex cursor-not-allowed items-center justify-center rounded-full bg-gray-500 px-2 text-white/40% font-bold'
 		])}
 	>
 		{label}

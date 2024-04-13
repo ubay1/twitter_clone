@@ -6,13 +6,16 @@
 	import ErrorMessage from './ErrorMessage.svelte';
 	import LoadingTwoColor from '../loading/LoadingTwoColor.svelte';
 	import { clickOutside } from '$lib/actions/clickOutside';
+	import classNames from 'classnames';
+	import { createEventDispatcher } from 'svelte';
+
+	const emit = createEventDispatcher();
 
 	let search: string;
 	let showList: boolean = false;
 	// export let selectedData: IListData = { label: '', value: '' };
 	export let listData: IListData[] = [];
 	export let placeholder: string = 'Select data';
-	export let selected: string;
 	export let label: string = '';
 	export let id: string;
 	export let name: string;
@@ -22,6 +25,7 @@
 
 	const form = field(id, '', validation);
 	$: formError = $form.dirty && $form.errors.length > 0;
+	$: emit('selected', $form.value);
 
 	$: _listData = listData.filter((item) =>
 		(item.label as string).toLowerCase().includes(search && search.toLowerCase())
@@ -43,23 +47,31 @@
 	{/if}
 	{#if disabled || isLoading}
 		<div
-			class="bg-gray-50 border border-gray-300 focus:border-primary-500 focus:ring-primary-500 w-full flex justify-between items-center py-2 pr-1.5 pl-2.5 rounded-lg focus:border focus:ring-2 outline-none"
+			class="bg-gray-500 border border-gray-500 w-fill flex justify-between items-center py-2 pr-1.5 pl-2.5 rounded-lg focus:border focus:ring-2 outline-none"
 		>
-			<span class="text-color-default text-sm opacity-20">
-				{isLoading ? 'Loading data ..' : checkDataIsNotEmpty(selected) ? selected : placeholder}
+			<span class="text-white/40% text-sm">
+				{isLoading ? 'Loading data ..' : placeholder}
 			</span>
 			{#if isLoading}
 				<LoadingTwoColor color1="#555" class="m-0 w-7 h-7 p-0" />
 			{:else}
 				<Icon
 					icon={!showList ? 'ic:round-keyboard-arrow-down' : 'ic:round-keyboard-arrow-up'}
-					class="w-[1.5rem] h-[1.5rem] text-gray-500 opacity-20"
+					class="w-[1.5rem] h-[1.5rem] text-white/40%"
 				/>
 			{/if}
 		</div>
 	{:else}
 		<div class="custom-select">
-			<select bind:value={selected} {id} {name}>
+			<select
+				bind:value={$form.value}
+				{id}
+				{name}
+				class={classNames({
+					'border-2 border-solid border-red-500': formError,
+					'border border-solid border-[#dedede]': !formError
+				})}
+			>
 				<option disabled value="">{placeholder}</option>
 				{#each listData as data}
 					<option value={data.value}>{data.label}</option>
@@ -104,7 +116,6 @@
 		width: 100%;
 		height: 40px;
 		border-radius: 6px;
-		border: 1px solid #dedede;
 		padding-left: 8px;
 		/* background-image: linear-gradient(to top, #f9f9f9, #fff 33%); */
 	}
