@@ -1,4 +1,6 @@
 // import { Supabase } from '$lib/server/supabase-client';
+import { Supabase } from '$lib/server/supabase-client.js';
+import { addZeroInNumber } from '$lib/utils/transform.js';
 import type { Actions } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
@@ -12,15 +14,17 @@ export const actions: Actions = {
 		// const { data } = await Supabase.from('users').insert({
 
 		// });
-		const data = await request.formData();
-		const name = data.get('name');
-		const email = data.get('email');
-		console.log(request);
+		const formdata = await request.formData();
+		const fullname = formdata.get('Name');
+		const email = formdata.get('Email');
+		const birth_date = `${formdata.get('Year')}-${addZeroInNumber(Number(formdata.get('Month')))}-${addZeroInNumber(Number(formdata.get('Date')))}`;
+
+		const res = await Supabase.from('users').insert({ fullname, email, birth_date }).select();
+		// console.log('create data = ', res);
+
 		return {
-			formdata: {
-				name,
-				email
-			}
+			status: res.status,
+			data: res.data
 		};
 	}
 };

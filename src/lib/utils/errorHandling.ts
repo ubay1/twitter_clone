@@ -66,6 +66,10 @@ export const errorMsg = (id: string, min?: number | undefined, idConfirm?: strin
 		{
 			type: 'have_two_digit_behind_comma',
 			value: `Hanya bisa berupa angka dan titik, serta maksimal 2 angka dibelakang koma.`
+		},
+		{
+			type: 'custom_name_signup',
+			value: `What's your name?`
 		}
 	];
 };

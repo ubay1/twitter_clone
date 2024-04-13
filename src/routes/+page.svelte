@@ -70,10 +70,10 @@
 		</div>
 		<div class="font-bold text-2xl mt-8 mb-6" un-lt-md="mt-2">Join today.</div>
 		<div class="w-[320px] flex flex-col gap-2 <md:w-full">
-			<button class="btn-fill-gray w-full flex justify-center items-center gap-2">
+			<button class="btn-fill-white h-11 w-full flex justify-center items-center gap-2">
 				<Icons icon="ri:google-fill" class="text-lg" /> Sign up with Google
 			</button>
-			<button class="btn-fill-gray w-full flex justify-center items-center gap-2">
+			<button class="btn-fill-white h-11 w-full flex justify-center items-center gap-2">
 				<Icons icon="ri:apple-fill" class="text-lg" /> Sign up with Apple
 			</button>
 
@@ -98,7 +98,7 @@
 			<div class="mt-10">
 				<div class="font-bold">Already have an account?</div>
 				<button
-					class="btn-fill-gray font-semibold w-full mt-4 text-color_primary hover:bg-color_primary/10%"
+					class="btn-fill-white h-11 font-semibold w-full mt-4 text-color_primary hover:bg-color_primary/10%"
 				>
 					Sign in
 				</button>

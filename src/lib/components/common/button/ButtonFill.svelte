@@ -4,7 +4,7 @@
 	import classNames from 'classnames';
 	import LoadingOneColor from '$lib/components/common/loading/LoadingOneColor.svelte';
 
-	export let variant: TypeVariant = 'default';
+	export let variant: TypeVariant = 'black';
 	export let type: TypeButton = 'button';
 	export let loading: boolean = false;
 	export let disabled: boolean = false;
@@ -22,7 +22,8 @@
 	const buttonType = (type: TypeVariant): string => {
 		const buttonTypeMap = {
 			primary: 'btn-fill-primary',
-			default: 'btn-fill-gray'
+			black: 'btn-fill-black',
+			white: 'btn-fill-white'
 		};
 
 		return buttonTypeMap[`${type}`];
@@ -33,7 +34,7 @@
 	<div
 		class={classNames([
 			$$props.class_disabled,
-			'h-11 flex cursor-not-allowed items-center justify-center rounded-lg bg-disabled px-2 text-sm text-gray-4 font-400'
+			'h-11 flex cursor-not-allowed items-center justify-center rounded-full bg-gray-500 px-2 text-white font-bold'
 		])}
 	>
 		{label}

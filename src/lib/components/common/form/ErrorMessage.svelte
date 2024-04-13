@@ -13,7 +13,7 @@
 
 <div class="flex flex-col">
 	{#each errors as error, idx}
-		<div class="text-sm text-error">
+		<div class="text-sm text-red-500">
 			{#if idx === 0}
 				{checkTypeError(error)}
 			{/if}

@@ -10,31 +10,35 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
 	import { checkObjectHasEmptyValue } from '$lib/utils/transform';
+	import { email } from 'svelte-forms/validators';
+	import { customValidationNameSignup } from '$lib/utils/customValidationForErrorHandling';
+
+	let isLoading: boolean = false;
 
 	let dataSignup = {
 		name: '',
 		email: '',
-		yearOfBirth: {} as IListData,
-		monthOfBirth: {} as IListData,
-		dateOfBirth: {} as IListData
+		yearOfBirth: '',
+		monthOfBirth: '',
+		dateOfBirth: ''
 	};
 	$: useDataSignUp.setDataSignup(dataSignup);
 
 	const submitSignup: SubmitFunction = ({ formData, cancel }) => {
-		console.log(Object.fromEntries(formData));
-		console.log(dataSignup);
-
+		isLoading = true;
 		const objectHasEmptyValue = checkObjectHasEmptyValue(dataSignup);
+		// console.log(objectHasEmptyValue);
+		// console.log(dataSignup);
 
 		if (objectHasEmptyValue) {
 			alert('gagal');
 			cancel();
 		}
 
-		return async ({ result, update, formData }) => {
-			// `result` is an `ActionResult` object
-			// `update` is a function which triggers
-			// the default logic that would be triggered if this callback wasn't set
+		return async ({ result }) => {
+			console.log(result);
+			isLoading = false;
+
 			if (result.type === 'success') {
 				alert('sukses');
 			}
@@ -43,25 +47,36 @@
 			dataSignup = {
 				name: '',
 				email: '',
-				yearOfBirth: {} as IListData,
-				monthOfBirth: {} as IListData,
-				dateOfBirth: {} as IListData
+				yearOfBirth: '',
+				monthOfBirth: '',
+				dateOfBirth: ''
 			};
 		};
 	};
 </script>
 
 <div class="px-8 flex flex-col items-start lt-sm:px-2">
-	<div class="font-bold text-2xl mb-6 lt-sm:mt-10">Create your account</div>
+	<div class="font-bold text-2xl mb-6 mt-10">Create your account</div>
 	<form method="post" action="?/signup" use:enhance={submitSignup}>
-		<div class="w-fill flex flex-col gap-4">
-			<FormInput id="name" label="Name" bind:value={dataSignup.name} initFocus={true} />
+		<div class="w-full flex flex-col gap-4">
 			<FormInput
-				id="email"
+				id="Name"
+				name="Name"
+				label="Name"
+				validation={[customValidationNameSignup()]}
+				bind:value={dataSignup.name}
+				on:value={(e) => (dataSignup.name = e.detail)}
+				initFocus={true}
+			/>
+			<FormInput
+				id="Email"
+				name="Email"
 				label="Email"
+				validation={[email()]}
 				showTotalInput={false}
 				maxLengthInput={1000}
 				bind:value={dataSignup.email}
+				on:value={(e) => (dataSignup.email = e.detail)}
 			/>
 
 			<div>
@@ -82,24 +97,25 @@
 						id="Month"
 						name="Month"
 						placeholder="Month"
-						listData={getListMonths(Number(dataSignup.yearOfBirth.value))}
+						listData={getListMonths(Number(dataSignup.yearOfBirth))}
 						bind:selected={dataSignup.monthOfBirth}
 					/>
 					<FormSelectV2
 						id="Date"
 						name="Date"
 						placeholder="Day"
-						listData={getListDates(
-							Number(dataSignup.yearOfBirth.value),
-							Number(dataSignup.monthOfBirth.value)
-						)}
+						listData={getListDates(Number(dataSignup.yearOfBirth), Number(dataSignup.monthOfBirth))}
 						bind:selected={dataSignup.dateOfBirth}
 					/>
 				</div>
-				<ButtonFill label="Submit" variant="default" type="submit" />
+				<ButtonFill
+					label="Submit"
+					variant="black"
+					type="submit"
+					loading={isLoading}
+					disabled={checkObjectHasEmptyValue(dataSignup)}
+				/>
 			</div>
 		</div>
 	</form>
 </div>
-
-<style></style>

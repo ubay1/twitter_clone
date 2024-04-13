@@ -5,4 +5,4 @@ export interface IListData {
 [];
 
 export type TypeButton = 'button' | 'submit';
-export type TypeVariant = 'default' | 'primary';
+export type TypeVariant = 'black' | 'white' | 'primary';

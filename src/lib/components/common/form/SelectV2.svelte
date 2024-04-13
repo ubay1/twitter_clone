@@ -12,7 +12,7 @@
 	// export let selectedData: IListData = { label: '', value: '' };
 	export let listData: IListData[] = [];
 	export let placeholder: string = 'Select data';
-	export let selected: IListData = { label: '', value: '' };
+	export let selected: string;
 	export let label: string = '';
 	export let id: string;
 	export let name: string;
@@ -27,9 +27,9 @@
 		(item.label as string).toLowerCase().includes(search && search.toLowerCase())
 	);
 
-	$: if (!checkDataIsNotEmpty(selected.value)) {
-		selected = { label: '', value: '' };
-	}
+	// $: if (!checkDataIsNotEmpty(selected)) {
+	// 	selected = { label: '', value: '' };
+	// }
 
 	const handleClickOutside = () => {
 		showList = false;
@@ -46,11 +46,7 @@
 			class="bg-gray-50 border border-gray-300 focus:border-primary-500 focus:ring-primary-500 w-full flex justify-between items-center py-2 pr-1.5 pl-2.5 rounded-lg focus:border focus:ring-2 outline-none"
 		>
 			<span class="text-color-default text-sm opacity-20">
-				{isLoading
-					? 'Loading data ..'
-					: checkDataIsNotEmpty(selected.value)
-						? selected.label
-						: placeholder}
+				{isLoading ? 'Loading data ..' : checkDataIsNotEmpty(selected) ? selected : placeholder}
 			</span>
 			{#if isLoading}
 				<LoadingTwoColor color1="#555" class="m-0 w-7 h-7 p-0" />
@@ -62,12 +58,11 @@
 			{/if}
 		</div>
 	{:else}
-		{JSON.stringify(selected)}
 		<div class="custom-select">
-			<select bind:value={selected}>
-				<option selected disabled value={selected.value === ''}>{placeholder}</option>
+			<select bind:value={selected} {id} {name}>
+				<option disabled value="">{placeholder}</option>
 				{#each listData as data}
-					<option value={data}>{data.label}</option>
+					<option value={data.value}>{data.label}</option>
 				{/each}
 			</select>
 		</div>

@@ -29,7 +29,12 @@ export default defineConfig({
 			'bg-transparent border-none cursor-pointer p-0 hover:bg-transparent hover:opacity-80'
 		],
 		[
-			'btn-fill-gray',
+			'btn-fill-black',
+			'bg-black p-2 h-10 text-[16px] font-default rounded-full border-none text-white border-1 border-solid border-gray-2 cursor-pointer hover:bg-black/85% disabled:opacity-25 disabled:cursor-not-allowed'
+		],
+
+		[
+			'btn-fill-white',
 			'bg-white p-2 h-10 text-[16px] font-default rounded-full border-none text-black border-1 border-solid border-gray-2 cursor-pointer hover:bg-gray-2 disabled:opacity-25 disabled:cursor-not-allowed'
 		],
 		[

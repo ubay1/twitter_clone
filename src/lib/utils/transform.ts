@@ -18,6 +18,13 @@ export const removeNullOrUndefined = (object: object) =>
 export const checkDataIsNotEmpty = (value: string | number | null | undefined): boolean =>
 	!['', '-', null, 'null', undefined, 'undefined', 0].includes(value);
 
+export function addZeroInNumber(value: number): string {
+	if (value < 10) {
+		return `0${value}`;
+	}
+	return String(value);
+}
+
 interface DataSignup {
 	[key: string]: string | object;
 }

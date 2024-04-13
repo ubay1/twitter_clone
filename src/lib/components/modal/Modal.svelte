@@ -15,8 +15,7 @@
 >
 	<div class="fixed inset-0 bg-[rgba(0,0,0,0.8)] opacity-50 z-20"></div>
 	<div
-		class="bg-white p-2 rounded-lg shadow-xl max-h-full overflow-auto z-2000"
-		lg="w-[50%]"
+		class="bg-white p-2 rounded-lg shadow-xl max-h-full overflow-auto z-2000 w-[40%]"
 		un-lt-lg="w-[70%]"
 		un-lt-md="w-[80%]"
 		un-lt-sm="w-full h-full"
