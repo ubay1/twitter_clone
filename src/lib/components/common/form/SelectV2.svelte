@@ -110,6 +110,7 @@
 		height: 40px;
 		border-radius: 6px;
 		padding-left: 8px;
+		background-color: white;
 		/* background: linear-gradient(to bottom, #fff, #edecec);
 		box-shadow: inset 0 1px 0 #edecec; */
 	}
