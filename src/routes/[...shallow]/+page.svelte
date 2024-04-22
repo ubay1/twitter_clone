@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import Seo from '$lib/components/common/Seo.svelte';
 	import Modal from '$lib/components/modal/Modal.svelte';
+	import ModalSignin from '$lib/components/modal/ModalSignin.svelte';
+	import ModalSignup from '$lib/components/modal/ModalSignup.svelte';
 	import { CloseShallowRouting, ShallowRouting } from '$lib/utils/shallowRouting.ts';
 
 	export let data;
@@ -24,5 +26,11 @@
 <Seo title="Signup For X" url="/" />
 
 {#if $page.state.showModal}
-	<Modal on:close={closeModal} />
+	<Modal on:close={closeModal}>
+		{#if ShallowRouting._path === 'signup'}
+			<ModalSignup on:close={closeModal} />
+		{:else if ShallowRouting._path === 'signin'}
+			<ModalSignin on:close={closeModal} />
+		{/if}
+	</Modal>
 {/if}

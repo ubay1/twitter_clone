@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import ModalSignup from '$lib/components/modal/ModalSignup.svelte';
 	import ButtonFill from '$lib/components/common/button/ButtonFill.svelte';
+	import ModalSignin from '$lib/components/modal/ModalSignin.svelte';
 
 	let isShowModal: boolean = false;
 
@@ -48,7 +49,11 @@
 
 {#if isShowModal}
 	<Modal on:close={closeModal}>
-		<ModalSignup on:close={closeModal} />
+		{#if ShallowRouting._path === 'signup'}
+			<ModalSignup on:close={closeModal} />
+		{:else if ShallowRouting._path === 'signin'}
+			<ModalSignin on:close={closeModal} />
+		{/if}
 	</Modal>
 {/if}
 
@@ -99,6 +104,7 @@
 				<div class="font-bold">Already have an account?</div>
 				<button
 					class="btn-fill-white h-11 font-semibold w-full mt-4 text-color_primary hover:bg-color_primary/10%"
+					on:click={() => showModal('signin')}
 				>
 					Sign in
 				</button>

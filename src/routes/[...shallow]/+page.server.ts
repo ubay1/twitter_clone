@@ -11,16 +11,12 @@ export const load = async ({ params }) => {
 
 export const actions: Actions = {
 	signup: async ({ request }) => {
-		// const { data } = await Supabase.from('users').insert({
-
-		// });
 		const formdata = await request.formData();
 		const fullname = formdata.get('Name');
 		const email = formdata.get('Email');
 		const birth_date = `${formdata.get('Year')}-${addZeroInNumber(Number(formdata.get('Month')))}-${addZeroInNumber(Number(formdata.get('Date')))}`;
 
 		const res = await Supabase.from('users').insert({ fullname, email, birth_date }).select();
-		// console.log('create data = ', res);
 
 		return {
 			status: res.status,
