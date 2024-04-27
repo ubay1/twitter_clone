@@ -40,7 +40,7 @@
 	{/if}
 	{#if disabled || isLoading}
 		<div
-			class="bg-gray-500 border border-gray-500 w-fill flex justify-between items-center py-2 pr-1.5 pl-2.5 rounded-lg focus:border focus:ring-2 outline-none"
+			class="bg-gray-500 border border-gray-500 w-fill flex justify-between items-center py-[10px] pr-1.5 pl-2.5 rounded-lg focus:border focus:ring-2 outline-none"
 		>
 			<span class="text-white/40% text-sm">
 				{isLoading ? 'Loading data ..' : placeholder}
@@ -49,8 +49,8 @@
 				<LoadingTwoColor color1="#555" class="m-0 w-7 h-7 p-0" />
 			{:else}
 				<Icon
-					icon={!showList ? 'ic:round-keyboard-arrow-down' : 'ic:round-keyboard-arrow-up'}
-					class="w-[1.5rem] h-[1.5rem] text-white/40%"
+					icon={!showList ? 'ri:expand-up-down-fill' : 'ri:expand-up-down-fill'}
+					class="text-white/40%"
 				/>
 			{/if}
 		</div>

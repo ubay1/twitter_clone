@@ -6,6 +6,7 @@ import type { IListData } from '$lib/types/components';
 const env = process.env.NODE_ENV;
 
 interface ISignup {
+	step: number;
 	name: string | null;
 	email: string | null;
 	yearOfBirth: IListData;
@@ -14,6 +15,7 @@ interface ISignup {
 }
 function createSignUp() {
 	const { subscribe, set, update } = writable<ISignup>({
+		step: 1,
 		name: null,
 		email: null,
 		yearOfBirth: {} as IListData,
@@ -24,6 +26,14 @@ function createSignUp() {
 	const dataStore = {
 		update,
 		subscribe,
+		setStep: (value: number) => {
+			update((items) => {
+				return {
+					...items,
+					step: value
+				};
+			});
+		},
 		setName: (value: string) => {
 			update((items) => {
 				return {
@@ -69,6 +79,7 @@ function createSignUp() {
 		},
 		reset: () =>
 			set({
+				step: 1,
 				name: null,
 				email: null,
 				yearOfBirth: {} as IListData,
