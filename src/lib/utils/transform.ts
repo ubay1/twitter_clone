@@ -26,7 +26,7 @@ export function addZeroInNumber(value: number): string {
 }
 
 interface DataSignup {
-	[key: string]: string | object;
+	[key: string]: string | number | object;
 }
 export function checkObjectHasEmptyValue(obj: DataSignup): boolean {
 	for (const key in obj) {
